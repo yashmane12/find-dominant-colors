@@ -1,4 +1,4 @@
-# Dominant Colors Finder Web Application
+# Find Dominant Colors from an Image!
 
 A Flask-based web application that leverages machine learning algorithms to identify the dominant colors in an image. Users can upload an image from their computer or provide an image URL, and the application will display the dominant colors along with marking their presence in the image.
 
@@ -9,7 +9,7 @@ A Flask-based web application that leverages machine learning algorithms to iden
 - **Upload Images**: Users can upload an image from their device.
 - **Use Image URLs**: Analyze images from URLs.
 - **Dominant Colors Detection**: Uses ML algorithms to detect dominant colors in the image.
-- **Visual Representation**: Marks the detected dominant colors on the image.
+- **Visual Representation**: Marks the top detected dominant color on the image.
 
 ---
 
@@ -34,12 +34,4 @@ A Flask-based web application that leverages machine learning algorithms to iden
 ### Prerequisites
 
 - Python 3.8+
-- Flask
-- NumPy, OpenCV, scikit-learn (or similar ML library)
-
-### Steps
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/dominant-colors-finder.git
-   cd dominant-colors-finder
+- Packages required are mentioned in the 'requirements.txt' file
