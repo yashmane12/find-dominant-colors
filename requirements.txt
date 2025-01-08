@@ -1,0 +1,7 @@
+flask
+pillow
+scikit-learn
+numpy
+requests
+webcolors
+opencv-python
