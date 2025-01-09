@@ -35,3 +35,6 @@ A Flask-based web application that leverages machine learning algorithms to iden
 
 - Python 3.8+
 - Packages required are mentioned in the 'requirements.txt' file
+
+## How to Start
+Just Run the 'app.py' file through terminal/cmd/codeeditor to start the WebApp
