@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Dominant Colors from an Image!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9; /* Light grey background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px; /* Increased width for a wider container */
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1, h2, h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 600;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        h3 {
+            font-size: 18px;
+            font-weight: 400;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .top-dominant {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ca0000; /* Green top dominant color */
+            border: 2px solid #111211; /* Border color matches text color */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Add padding to create space between content and border */
+            text-align: center; /* Align text to the left */
+        }
+        .other-dominant {
+            font-weight: bold;
+            color: #000000; /* Teal color for other dominant colors */
+            border: 2px solid #111211; /* Border color matches text color */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Add padding to create space between content and border */
+            text-align: center; /* Align text to the left */
+        }
+        img {
+            display: block;
+            margin: 20px auto; /* Center align the image */
+            max-width: 100%;
+            height: auto;
+            border: 8px solid rgba(29, 15, 15, 0.1); /* Light black border */
+            border-radius: 5px;
+        }
+        .download-button, .back-button {
+            background-color: #6c5ce7; /* Vivid purple */
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-right: 10px; /* Add margin between buttons */
+            transition: background-color 0.3s;
+            font-size: 16px; /* Match font size */
+        }
+        .download-button:hover, .back-button:hover {
+            background-color: #4834d4; /* Darker shade of purple */
+        }
+        .back-button {
+            margin-top: 10px; /* Adjust margin for the third button */
+        }
+        .credits-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .credits {
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .credits p {
+            margin-bottom: 5px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 40px 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Find Dominant Colors from an Image!</h1>
+        <br>
+        <h2>Top Dominant Color</h2>
+        <ul>
+            <li class="top-dominant">
+                Name: {{ dominant_colors.0.2 }}<br>
+                RGB: ({{ dominant_colors.0.0.0 }}, {{ dominant_colors.0.0.1 }}, {{ dominant_colors.0.0.2 }})<br>
+                HEX: {{ dominant_colors.0.3 }}<br>                
+                Percentage: {{ '%.4f'|format(dominant_colors.0.1) }}%
+            </li>
+        </ul>
+        <br>
+        {% if dominant_colors|length > 1 %}
+            <h2>Other Dominant Colors</h2>
+            <ul>
+                {% for color in dominant_colors[1:] %}
+                    <li class="other-dominant">
+                        Name: {{ color.2 }}<br>
+                        RGB: ({{ color.0.0 }}, {{ color.0.1 }}, {{ color.0.2 }})<br>
+                        HEX: {{ color.3 }}<br>                        
+                        Percentage: {{ '%.4f'|format(color.1) }}%<br>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <br>
+        <img src="/{{ marked_image_path }}" alt="Marked Image">
+        <p>In the above image, the top dominant color is <b>Marked with a 'Transparent Red' color surrounding a black border</b> on it... </p>
+        <p><b>[ Most Possible Accuracy is Maintained while doing the process... ]</b></p>
+        <br>
+        <button class="download-button" onclick="window.print()">Download Results PDF</button>
+        <!-- Button to download the generated image -->
+        <button class="download-button" onclick="downloadImage()">Download Marked Image</button>
+        <!-- Button to go back to homepage -->
+        <button class="back-button" onclick="location.href='/'">Back to Homepage</button>
+        <br>
+        <!-- JavaScript to handle image download -->
+        <script>
+        function downloadImage() {
+            // Get the image URL from the img element
+            var imageUrl = document.querySelector('img').src;
+            
+            // Create a temporary anchor element
+            var anchor = document.createElement('a');
+            anchor.href = imageUrl;
+            anchor.download = 'marked_image.png'; // Set the filename for download
+
+            // Programmatically trigger a click event on the anchor element
+            document.body.appendChild(anchor);
+            anchor.click();
+
+            // Cleanup: remove the temporary anchor element
+            document.body.removeChild(anchor);
+        }
+        </script>
+        <br>
+        <hr>
+        <div class="credits-container">
+            <div class="credits">
+                <p><strong>Project Made by Yash Mane</strong></p>
+            </div>
+        </div>
+        
+    </div>
+
+</body>
+</html>

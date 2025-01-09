@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Dominant Colors from an Image!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9; /* Light grey background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px; /* Increased width for a wider container */
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1, h2, h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 600;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+        h3 {
+            font-size: 18px;
+            font-weight: 400;
+        }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="file"], input[type="url"] {
+            width: calc(100% - 24px);
+            margin-bottom: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: #f5f5f5;
+        }
+        input[type="file"]:focus, input[type="url"]:focus {
+            outline: none;
+        }
+        input[type="submit"], .download-button {
+            width: 50%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #6c5ce7; /* Vivid purple */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover, .download-button:hover {
+            background-color: #4834d4; /* Darker shade of purple */
+        }
+        .error-message {
+            color: #ff4d4f; /* Red for error message */
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 40px 0;
+            width: 100%;
+        }
+        .credits-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }    
+        .credits {
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .credits p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Find Dominant Colors from an Image!</h1>
+        <br>
+        <h2>Upload an Image</h2>
+        <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required>
+            <input type="submit" value="Upload">
+        </form>
+        
+        <h3>OR</h3>
+        
+        <h2>Enter Image URL [Image Address]</h2>
+        <form id="urlForm" action="/upload" method="POST">
+            <input type="url" id="imageUrl" name="url" placeholder="Enter image URL" required>
+            <input type="submit" value="Submit">
+        </form>
+        <br>
+        <span class="error-message" id="errorMessage"></span>
+        <hr>
+        <div class="credits-container">
+            <div class="credits">
+                <p><strong>Project Made by Yash Mane</strong></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", function(event) {
+            var fileInput = document.querySelector('input[type="file"]');
+            var fileExtension = fileInput.files[0].name.split('.').pop().toUpperCase();
+            if (fileExtension === "AVIF") {
+            
+                document.getElementById("errorMessage").innerText = "AVIF Images Not Supported. The Supported Image Formats are: JPEG, JPG, PNG, JFIF, WEBP";
+                event.preventDefault();
+            }
+        });
+
+        document.getElementById("urlForm").addEventListener("submit", function(event) {
+            var imageUrlInput = document.getElementById("imageUrl");
+            var imageUrl = imageUrlInput.value.toUpperCase();
+            // Check if the entered URL ends with an image extension
+            if (imageUrl.endsWith(".AVIF")) {
+            
+            document.getElementById("errorMessage").innerText = "AVIF Images Not Supported. The Supported Image Formats are: JPEG, JPG, PNG, JFIF, WEBP";
+            event.preventDefault();
+            }
+            else if (!/(.jpg|.jpeg|.png|.jfif|.webp)$/i.test(imageUrl)) {
+                document.getElementById("errorMessage").innerText = "Please enter a valid image address (URL) only.";
+                event.preventDefault();
+            }  
+        });
+    </script>
+</body>
+</html>
+
